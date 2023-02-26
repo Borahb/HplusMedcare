@@ -169,20 +169,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
-  dio:
-    dependency: "direct main"
-    description:
-      name: dio
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.10"
-  dots_indicator:
-    dependency: transitive
-    description:
-      name: dots_indicator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.0"
   equatable:
     dependency: "direct main"
     description:
@@ -252,12 +238,19 @@ packages:
     source: hosted
     version: "3.3.5"
   flutter_svg:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_svg
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.20.0-nullsafety.3"
+    version: "0.23.0+1"
+  flutter_svg_icons:
+    dependency: "direct main"
+    description:
+      name: flutter_svg_icons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1+3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -319,13 +312,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.4"
-  introduction_screen:
-    dependency: "direct main"
-    description:
-      name: introduction_screen
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.9"
   io:
     dependency: transitive
     description:

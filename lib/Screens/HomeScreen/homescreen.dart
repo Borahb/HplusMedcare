@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hplusmedcare/Screens/Cart/cart.dart';
 import 'package:hplusmedcare/Screens/HomeScreen/Components/categorygridview.dart';
 import 'package:hplusmedcare/Screens/HomeScreen/Components/medcareoptions.dart';
 import 'package:hplusmedcare/Screens/HomeScreen/Components/searchbar.dart';
@@ -56,10 +57,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: const Icon(Icons.notifications)
                           ),
                           const SizedBox(width:10),
-                          CircleAvatar(
-                            radius: 20,
-                            backgroundColor:colors.white ,
-                            child: const Icon(Icons.shopping_cart)
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> Cart()));
+                            },
+                            child: CircleAvatar(
+                              radius: 20,
+                              backgroundColor:colors.white ,
+                              child: const Icon(Icons.shopping_cart)
+                            ),
                           ),
                         ],
                       )

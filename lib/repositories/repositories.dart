@@ -1,6 +1,9 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 
-import 'package:dio/dio.dart';
+
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hplusmedcare/Utils/app_url.dart';
 
@@ -8,7 +11,7 @@ import 'package:hplusmedcare/Utils/app_url.dart';
 class UserRepository {
  
   final FlutterSecureStorage storage = const FlutterSecureStorage();
-  final Dio _dio = Dio();
+ 
 
   Future<bool> hasToken() async {
     var value = await storage.read(key: 'token');
@@ -29,11 +32,13 @@ class UserRepository {
   }
 
   Future<String> login(String phone, String password) async {
-    Response response = await _dio.post(AppUrl.login, data: {
+    final  response = await http.post(Uri.parse(AppUrl.login), body: {
       "email": phone,
       "password": password,
     });
-    return response.data["token"];
+
+    var data = jsonDecode(response.body.toString());
+    return data["token"];
   }
 
 }
