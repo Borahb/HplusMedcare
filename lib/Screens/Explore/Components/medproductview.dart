@@ -7,27 +7,35 @@ import 'package:hplusmedcare/Utils/colors.dart';
 class Medproductview extends StatelessWidget {
   const Medproductview({
     Key? key,
-    required this.present,
     required List<Medicine> foundmedicine,
     required this.colors,
+    required this.error,
+    required this.isLastPage,
+    required this.pageNumber,
+    required this.numberOfMedsPerRequest,
+    required this.loading,
+    required this.nextPageTrigger,
+
   }) : _foundmedicine = foundmedicine, super(key: key);
 
-  final int present;
   final List<Medicine> _foundmedicine;
   final AppColors colors;
+  final bool isLastPage;
+  final int pageNumber;
+  final bool error;
+  final bool loading;
+  final int numberOfMedsPerRequest ;
+  final int nextPageTrigger;
+
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,                      
-                itemCount: (present <= MedicineModel.medicines.length) ? _foundmedicine.length + 1 : _foundmedicine.length,
+                itemCount: _foundmedicine.length + (isLastPage ? 0 : 1),
                 itemBuilder: (context, index) {
-                  return (index == _foundmedicine.length ) ?
-                      const Center(
-                        child:CircularProgressIndicator()
-                      )
-                    :GestureDetector(
+                  return GestureDetector(
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder:(context)=> Medicinedetail(
                           medicine: _foundmedicine[index]

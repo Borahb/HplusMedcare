@@ -1,4 +1,3 @@
-
 // ignore_for_file: import_of_legacy_library_into_null_safe
 // @dart = 2.9
 
@@ -38,6 +37,7 @@ class SimpleBlocDelegate extends BlocDelegate {
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Hive.initFlutter();
 
   //register adapters
@@ -47,24 +47,26 @@ void main()async {
   
   BlocSupervisor.delegate = SimpleBlocDelegate();
   final userRepository = UserRepository();
+  final bool hasToken = await userRepository.hasToken();
   runApp(
     BlocProvider<AuthenticationBloc>(
       create: (context) {
         return AuthenticationBloc(userRepository: userRepository)
           ..add(AppStarted());
       },
-      child: MyApp(userRepository: userRepository),
+      child: MyApp(userRepository: userRepository, hastoken: hasToken,),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
   final UserRepository userRepository;
-
-  const MyApp({Key  key, @required this.userRepository}) : super(key: key);
-
+  final bool hastoken;
+  const MyApp({Key  key, @required this.userRepository, @required this.hastoken}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
       title: 'HplusMedcare',
       debugShowCheckedModeBanner: false,
@@ -129,3 +131,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

@@ -22,7 +22,7 @@ class MedicineAdapter extends TypeAdapter<Medicine> {
       Manufacturer_name: fields[2] as String,
       Type: fields[3] as String,
       Pack_size_label: fields[4] as String,
-      Price: fields[5] as String,
+      Price: fields[5] as int,
       Short_composition: fields[6] as String,
       Is_discontinued: fields[7] as String,
     );

@@ -1,14 +1,10 @@
-
 // ignore_for_file: import_of_legacy_library_into_null_safe
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hplusmedcare/Screens/Cart/cart.dart';
 import 'package:hplusmedcare/Screens/HomeScreen/Components/categorygridview.dart';
 import 'package:hplusmedcare/Screens/HomeScreen/Components/medcareoptions.dart';
 import 'package:hplusmedcare/Screens/HomeScreen/Components/searchbar.dart';
 import 'package:hplusmedcare/Utils/colors.dart';
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -45,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       CircleAvatar(
                         radius: 30,
                         backgroundColor:colors.dotcolor ,
+                        child:Image.asset('images/profilepic.png')
                       ),
 
                       const Spacer(),
@@ -59,8 +56,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           const SizedBox(width:10),
                           GestureDetector(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> Cart()));
-                            },
+                              
+                              
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>const Cart()));
+                              
+                                },
                             child: CircleAvatar(
                               radius: 20,
                               backgroundColor:colors.white ,

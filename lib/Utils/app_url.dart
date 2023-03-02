@@ -6,9 +6,10 @@ class AppUrl {
 // login
     static const String login = baseurl + '/hserver/auth/login';
 
-//all medicines
+// all medicines
     static const String medicineurl = baseurl + '/hserver/medicine';
 
-
+// cart url
+    static const String carturl = baseurl + '/hserver/cart';
 
 }

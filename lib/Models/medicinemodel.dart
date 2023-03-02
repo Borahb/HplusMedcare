@@ -38,7 +38,7 @@ class Medicine {
   @HiveField(4)
   final String Pack_size_label;
   @HiveField(5)
-  final String Price;
+  final int Price;
   @HiveField(6)
   final String Short_composition;
   @HiveField(7)
@@ -62,7 +62,7 @@ class Medicine {
     String? Manufacturer_name,
     String? Type,
     String? Pack_size_label,
-    String? Price,
+    int? Price,
     String? Short_composition,
     String? Is_discontinued,
   }) {
@@ -80,7 +80,7 @@ class Medicine {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
+      '_id': id,
       'Name': Name,
       'Manufacturer_name': Manufacturer_name,
       'Type': Type,
@@ -93,12 +93,12 @@ class Medicine {
 
   factory Medicine.fromMap(Map<String, dynamic> map) {
     return Medicine(
-      id: map['id'] as String,
+      id: map['_id'] as String,
       Name: map['Name'] as String,
       Manufacturer_name: map['Manufacturer_name'] as String,
       Type: map['Type'] as String,
       Pack_size_label: map['Pack_size_label'] as String,
-      Price: map['Price'] as String,
+      Price: map['Price'] as int,
       Short_composition: map['Short_composition'] as String,
       Is_discontinued: map['Is_discontinued'] as String,
     );

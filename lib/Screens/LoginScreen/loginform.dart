@@ -1,12 +1,18 @@
-// ignore_for_file: deprecated_member_use, import_of_legacy_library_into_null_safe
+// ignore_for_file: deprecated_member_use, import_of_legacy_library_into_null_safe, unnecessary_null_comparison
+import 'dart:convert';
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hplusmedcare/Bloc/login_bloc/login_bloc.dart';
 import 'package:hplusmedcare/Bloc/login_bloc/login_state.dart';
 import 'package:hplusmedcare/Screens/LoginScreen/loginScreen.dart';
+import 'package:hplusmedcare/Utils/app_url.dart';
 import 'package:hplusmedcare/Utils/colors.dart';
 import 'package:hplusmedcare/repositories/repositories.dart';
+import 'package:http/http.dart' as http;
+
 
 
 class LoginForm extends StatefulWidget {
@@ -23,6 +29,24 @@ class _LoginFormState extends State<LoginForm> {
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  late bool loading;
+
+  // void signin(String email, String pass)async{
+  //   final String token = await widget.userRepository.login(email,pass);
+  //   if (token != null){
+  //     await widget.userRepository.persistToken(token);
+  //   }
+  //   print(token);
+  //   setState(() {
+  //     loading = true;
+  //   });
+  //   } 
+
+  @override
+  void initState() {
+    loading = false;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +126,7 @@ class _LoginFormState extends State<LoginForm> {
                   const SizedBox(height: 36,),
             
                   SizedBox(
-                    child: state is LoginLoading ? Column(
+                    child:  state is LoginLoading ? Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -126,14 +150,12 @@ class _LoginFormState extends State<LoginForm> {
                         style: ElevatedButton.styleFrom(
                           primary: colors.dotcolor
                         ),
-                        onPressed: (){
+                        onPressed: ()async{
                           
-                            BlocProvider.of<LoginBloc>(context)
+                          BlocProvider.of<LoginBloc>(context)
                             .add(
                             LoginButtonPressed(email: _emailController.text, 
                             password: _passwordController.text,),);
-
-                            
                           
                         }, child: Text("Sign In",style: TextStyle(
                           fontWeight: FontWeight.w700,

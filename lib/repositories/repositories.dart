@@ -2,7 +2,6 @@
 
 
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hplusmedcare/Utils/app_url.dart';
@@ -31,11 +30,13 @@ class UserRepository {
     storage.deleteAll();
   }
 
-  Future<String> login(String phone, String password) async {
-    final  response = await http.post(Uri.parse(AppUrl.login), body: {
-      "email": phone,
-      "password": password,
-    });
+  Future<String> login(String email, String password) async {
+    final  response = await http.post(Uri.parse(AppUrl.login), body: jsonEncode({
+    "email":email,
+    "password":password,
+    }),  
+    headers: {"Content-Type": "application/json"}    
+    );
 
     var data = jsonDecode(response.body.toString());
     return data["token"];

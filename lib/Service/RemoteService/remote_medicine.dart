@@ -5,12 +5,12 @@ import 'package:http/http.dart' as http;
 
 
 
-class RemoteMedicineService {
+class RemoteMedicineService{
 
 
-  Future<dynamic> get() async {
+  Future<dynamic> get(int pageSize,int pagen) async {
     var response = await http.get(
-      Uri.parse(AppUrl.medicineurl)
+      Uri.parse(AppUrl.medicineurl + '?pageSize=$pageSize&pagen=$pagen')
     );
 
     return response;  

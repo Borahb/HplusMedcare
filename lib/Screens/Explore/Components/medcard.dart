@@ -107,13 +107,13 @@ class MedCard extends StatelessWidget {
                 children: [
                   const SizedBox(width: 84,), 
                   Text(
-                  '₹${medDataToShow[index].Price}' ,
+                  '₹${medDataToShow[index].Price.toString()}' ,
                   style: TextStyle(
                           fontSize: 14,
                           color: colors.textcolor1,
                           fontWeight: FontWeight.w800,
+                    ),
                   ),
-        ),
                 ],
               )
                 ],
