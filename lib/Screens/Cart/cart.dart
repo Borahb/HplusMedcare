@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:hplusmedcare/Models/cartmodel.dart';
 import 'package:hplusmedcare/Models/cartproductmodel.dart';
 import 'package:hplusmedcare/Screens/Cart/Components/addmoreitem.dart';
 import 'package:hplusmedcare/Screens/Cart/Components/appbar.dart';
@@ -24,14 +25,14 @@ class _CartState extends State<Cart> {
 
 
    AppColors colors = AppColors();
-   List<CartProduct> cartproduct = [];
+   //List<CartProduct> cartproduct = [];
    late double  totalprice;
    int deliverycharges = 99;
    int total = 0; 
    bool _isLoaderVisible = false;
 
    getCartItems()async{
-    cartproduct = await RemoteCartService().getCart();
+    await RemoteCartService().getCart();
     totalprice = totalPrice();
     total = totalprice.toInt() + deliverycharges;
     
@@ -50,7 +51,7 @@ class _CartState extends State<Cart> {
    }
 
    double totalPrice (){
-    return cartproduct.map((e) => e.product.Price * e.qty).fold(0, (total, current) => total + current);
+    return CartModel.medicines.map((e) => e.product.Price * e.qty).fold(0, (total, current) => total + current);
   }
 
    @override
@@ -65,15 +66,24 @@ class _CartState extends State<Cart> {
     return LoaderOverlay(
       useDefaultLoading: false,
       overlayWidget: Center(
-        child: SpinKitFadingCircle(
-          color: colors.dotcolor,
-          size:50,
+        child: Container(
+          width: 70,
+          height: 60,
+          decoration: BoxDecoration(
+            color: colors.white,
+            borderRadius: BorderRadius.circular(6)
+          ),
+          child: Center(
+            child: CircularProgressIndicator(
+              color: colors.dotcolor,
+            ),
+          ),
         )
         ),
       child: Scaffold(
       bottomSheet: BottomtotalPriceSheet(colors: colors, total: total),
 
-        body: cartproduct.isNotEmpty ? SafeArea(
+        body: CartModel.medicines.isNotEmpty ? SafeArea(
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.only(left: 32, right: 32, bottom: 90, top: 18),
@@ -84,14 +94,14 @@ class _CartState extends State<Cart> {
     
                     const SizedBox(height: 15,),
     
-                    Totalitemscard(cartproduct: cartproduct, colors: colors),
+                    Totalitemscard(cartproduct: CartModel.medicines, colors: colors),
     
                     const SizedBox(height: 15,),
     
                     ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap:true,
-                      itemCount: cartproduct.length,
+                      itemCount: CartModel.medicines.length,
                       itemBuilder: (context, index){
                           return Padding(
                             padding: const EdgeInsets.only(bottom:8.0),
@@ -112,7 +122,7 @@ class _CartState extends State<Cart> {
                                         Image.asset('images/med2.png',width: 50,height: 50,),
                                         const SizedBox(width: 15,),
                                         Flexible(
-                                          child: Text(cartproduct[index].product.Name ,style: TextStyle(
+                                          child: Text(CartModel.medicines[index].product.Name ,style: TextStyle(
                                             color: colors.textcolor1,
                                             fontSize: 15,
                                             fontWeight: FontWeight.w500
@@ -126,7 +136,7 @@ class _CartState extends State<Cart> {
                                             _isLoaderVisible = context.loaderOverlay.visible;
                                             });
                                             getCartItems();
-                                            bool ? res = await RemoteCartService().removeCartItem(cartproduct[index].product.id);
+                                            bool ? res = await RemoteCartService().removeCartItem(CartModel.medicines[index].product.id);
                                             
                                             if (_isLoaderVisible) {
                                               context.loaderOverlay.hide();
@@ -148,7 +158,7 @@ class _CartState extends State<Cart> {
                                         
                                         const SizedBox(width: 65,),
                                         Flexible(
-                                          child: Text(cartproduct[index].product.Pack_size_label.toUpperCase(),style: TextStyle(
+                                          child: Text(CartModel.medicines[index].product.Pack_size_label.toUpperCase(),style: TextStyle(
                                             color: colors.textcolor2,
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500
@@ -180,7 +190,7 @@ class _CartState extends State<Cart> {
                                       children: [
                                         
                                         const SizedBox(width: 65,),
-                                        Text('₹${cartproduct[index].product.Price * cartproduct[index].qty }',style: TextStyle(
+                                        Text('₹${CartModel.medicines[index].product.Price * CartModel.medicines[index].qty }',style: TextStyle(
                                           color: colors.textcolor1,
                                           fontSize: 16,
                                           fontWeight: FontWeight.w400
@@ -199,7 +209,7 @@ class _CartState extends State<Cart> {
                                               padding: const EdgeInsets.only(left:8.0),
                                               child: Row(
                                                 children: [
-                                          Text(cartproduct[index].qty.toString(),style: TextStyle(
+                                          Text(CartModel.medicines[index].qty.toString(),style: TextStyle(
                                           color: colors.textcolor1,
                                           fontSize: 15,
                                           fontWeight: FontWeight.w400

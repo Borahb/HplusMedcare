@@ -1,10 +1,13 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 import 'package:flutter/material.dart';
+import 'package:hplusmedcare/Models/cartmodel.dart';
 import 'package:hplusmedcare/Screens/Cart/cart.dart';
 import 'package:hplusmedcare/Screens/HomeScreen/Components/categorygridview.dart';
 import 'package:hplusmedcare/Screens/HomeScreen/Components/medcareoptions.dart';
 import 'package:hplusmedcare/Screens/HomeScreen/Components/searchbar.dart';
+import 'package:hplusmedcare/Service/RemoteService/remote_cart_service.dart';
 import 'package:hplusmedcare/Utils/colors.dart';
+import 'package:badges/badges.dart' as badges;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,6 +20,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   AppColors colors = AppColors();
+  getCartItems()async{
+    await RemoteCartService().getCart();
+    setState(() {
+    });
+   }
+   @override
+  void initState() {
+    getCartItems();
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       CircleAvatar(
                         radius: 30,
                         backgroundColor:colors.dotcolor ,
-                        child:Image.asset('images/profilepic.png')
+                        child:Image.asset("images/profilepic.png")
                       ),
 
                       const Spacer(),
@@ -56,15 +70,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           const SizedBox(width:10),
                           GestureDetector(
                             onTap: (){
-                              
-                              
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>const Cart()));
-                              
                                 },
-                            child: CircleAvatar(
-                              radius: 20,
-                              backgroundColor:colors.white ,
-                              child: const Icon(Icons.shopping_cart)
+                            child: badges.Badge(
+                              ignorePointer: false,
+                              
+                              badgeContent: Text(CartModel.medicines.length.toString(),style: TextStyle(color: colors.white),),
+                              child: CircleAvatar(
+                                radius: 20,
+                                backgroundColor:colors.white ,
+                                child: const Icon(Icons.shopping_cart)
+                              ),
                             ),
                           ),
                         ],

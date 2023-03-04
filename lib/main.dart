@@ -12,6 +12,7 @@ import 'package:hplusmedcare/Models/medicinemodel.dart';
 import 'package:hplusmedcare/Screens/OnboardingScreen/onboardingScreen.dart';
 import 'package:hplusmedcare/Screens/Tabbar/tabbar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hplusmedcare/Service/RemoteService/remote_cart_service.dart';
 import 'repositories/repositories.dart';
 
 
@@ -37,14 +38,11 @@ class SimpleBlocDelegate extends BlocDelegate {
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Hive.initFlutter();
-
   //register adapters
   Hive.registerAdapter(MedicineAdapter());
-
   await Hive.openBox<Medicine>('Medicine');
-  
+  await RemoteCartService().getCart();
   BlocSupervisor.delegate = SimpleBlocDelegate();
   final userRepository = UserRepository();
   final bool hasToken = await userRepository.hasToken();

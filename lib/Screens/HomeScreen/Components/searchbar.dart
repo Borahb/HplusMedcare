@@ -22,7 +22,7 @@ class Searchbar extends StatelessWidget {
         padding: const EdgeInsets.only(left: 16, top:16, bottom:16),
         child: Row(
           children: [
-          Icon(Icons.search,color:colors.bordercolor1, size: 20,),
+          Icon(Icons.search,color:colors.darkmode, size: 20,),
 
           const SizedBox(width:10),
 

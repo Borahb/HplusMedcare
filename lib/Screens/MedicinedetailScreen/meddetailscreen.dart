@@ -41,9 +41,18 @@ class _MedicinedetailState extends State<Medicinedetail> {
     return LoaderOverlay(
       useDefaultLoading: false,
       overlayWidget: Center(
-        child: SpinKitFadingCircle(
-          color: colors.dotcolor,
-          size:50,
+        child: Container(
+          width: 70,
+          height: 60,
+          decoration: BoxDecoration(
+            color: colors.white,
+            borderRadius: BorderRadius.circular(6)
+          ),
+          child: Center(
+            child: CircularProgressIndicator(
+              color: colors.dotcolor,
+            ),
+          ),
         )
         ),
       

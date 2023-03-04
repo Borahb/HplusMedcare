@@ -25,7 +25,8 @@ class _ExploreState extends State<Explore> {
   late int _pageNumber;
   late bool _error;
   final int _numberOfMedsPerRequest = 10;
-  
+  late String search;
+  bool isLoading = false;
 
   loadMedData() async {
 
@@ -45,24 +46,27 @@ class _ExploreState extends State<Explore> {
   }
   
   //This function is called whenever the text field changes
-  void _runFilter(String enteredKeyword) {
+  runFilter(String enteredKeyword)async{
+    setState(() {
+        isLoading = true;
+        _foundmedicine.clear();
+     });
     List<Medicine> results = [];
-    if (enteredKeyword.isEmpty) {
-      // if the search field is empty or only contains white-space, we'll display all users
-      results = _foundmedicine;
-    } else {
-      results = _foundmedicine
-          .where((med) =>
-              med.Name.toLowerCase().contains(enteredKeyword.toLowerCase()))
+    var meddata = await RemoteMedicineService().getMedicine(enteredKeyword,_numberOfMedsPerRequest,_pageNumber);
+    if (meddata != null) {
+      final decodeddata = jsonDecode(meddata.body.toString());
+      var medicine = decodeddata["medicine"];
+      results = List.from(medicine)
+          .map<Medicine>((item) => Medicine.fromMap(item))
           .toList();
-
+     setState(() {
+      _isLastPage = results.length < _numberOfMedsPerRequest;
+      _pageNumber = _pageNumber + 1;
+      _foundmedicine.addAll(results);
+      isLoading = false;
+     });
     }
 
-    // Refresh the UI
-    // setState(() {
-    //   _foundmedicine = results;
-    //   _foundmedicine.addAll(_foundmedicine.getRange(present, present + perPage));
-    // });
   }
 
 
@@ -71,7 +75,7 @@ class _ExploreState extends State<Explore> {
     _pageNumber = 0;
     _isLastPage = false;  
     _error = false;
-    loadMedData();
+    //loadMedData();
     super.initState();
   }
 
@@ -82,7 +86,8 @@ class _ExploreState extends State<Explore> {
           onNotification: (ScrollNotification scrollInfo) {
           if (scrollInfo.metrics.pixels ==
               scrollInfo.metrics.maxScrollExtent) {
-            loadMedData();
+            //loadMedData();
+            runFilter(search);
           }
           return true;
         },
@@ -96,7 +101,17 @@ class _ExploreState extends State<Explore> {
                       children: [
 
                       TextField(
-                        //onChanged: (value) => _runFilter(value),
+                        textInputAction: TextInputAction.search,
+                        onChanged: (value){
+                          
+                        },
+                        onSubmitted: (value){
+                          
+                          setState(() {
+                            search = value;
+                            runFilter(search);
+                          });
+                        },
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 15),
@@ -115,11 +130,26 @@ class _ExploreState extends State<Explore> {
                       ),
 
 
-              ListView.builder(
+              isLoading ? ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: 5,
+                        itemBuilder: (context,index){
+                          return Shimmer.fromColors(
+                        baseColor: Colors.grey.shade300,
+                        highlightColor: Colors.grey.shade100,
+                        child: ShimmerCard(colors: colors));
+                        }
+                        ): ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,                      
                 itemCount: _foundmedicine.length + (_isLastPage ? 0 : 1),
                 itemBuilder: (context, index) {
+                  if(_foundmedicine.isEmpty){
+                    return const Center(
+                        child: Text('Find Medicine'),
+                      );
+                  }
                    if (index == _foundmedicine.length) {
                     if (_error) {
                       return Center(
@@ -129,7 +159,7 @@ class _ExploreState extends State<Explore> {
                       return ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: 10,
+                        itemCount: 5,
                         itemBuilder: (context,index){
                           return Shimmer.fromColors(
                         baseColor: Colors.grey.shade300,
@@ -295,7 +325,7 @@ class ShimmerCard extends StatelessWidget {
                       height: 28,
                       width: 70,
                       decoration:BoxDecoration(
-                  color: Colors.black.withOpacity(0.04),
+                  color: colors.white,
                   borderRadius: BorderRadius.circular(5),
                     )
                     )
