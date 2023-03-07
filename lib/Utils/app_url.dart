@@ -15,4 +15,7 @@ class AppUrl {
 // cart url
     static const String carturl = baseurl + '/hserver/cart';
 
+// address url
+    static const String addressurl = baseurl + '/hserver/user/address';
+
 }

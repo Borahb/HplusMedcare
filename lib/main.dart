@@ -12,6 +12,7 @@ import 'package:hplusmedcare/Models/accountmodel.dart';
 import 'package:hplusmedcare/Screens/OnboardingScreen/onboardingScreen.dart';
 import 'package:hplusmedcare/Screens/Tabbar/tabbar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hplusmedcare/Service/RemoteService/remote_address_service.dart';
 import 'package:hplusmedcare/Service/RemoteService/remote_cart_service.dart';
 import 'repositories/repositories.dart';
 
@@ -43,7 +44,8 @@ void main()async {
   Hive.registerAdapter(AccountModelAdapter());
   await Hive.openBox<AccountModel>('Userinfo');
   await RemoteCartService().getCart();
-  AccountModel.accoundata   = await UserRepository().userinfo();
+  await RemoteAddressService().getUserAddress();
+  AccountModel.accoundata = await UserRepository().userinfo();
   BlocSupervisor.delegate = SimpleBlocDelegate();
   final userRepository = UserRepository();
   final bool hasToken = await userRepository.hasToken();
@@ -108,7 +110,7 @@ class MyApp extends StatelessWidget {
                 body: Container(
                   color: Colors.white,
                   width: MediaQuery.of(context).size.width,
-                                child: Column(
+                    child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     // ignore: prefer_const_literals_to_create_immutables
@@ -116,10 +118,10 @@ class MyApp extends StatelessWidget {
                       const SizedBox(
                         height: 25.0,
                         width: 25.0,
-                                          child: CircularProgressIndicator(
-          //valueColor: new AlwaysStoppedAnimation<Color>(Style.Colors.mainColor),
-          strokeWidth: 4.0,
-        ),
+                        child: CircularProgressIndicator(
+                //valueColor: new AlwaysStoppedAnimation<Color>(Style.Colors.mainColor),
+                        strokeWidth: 4.0,
+                    ),
                       )
                     ],
                   ),
