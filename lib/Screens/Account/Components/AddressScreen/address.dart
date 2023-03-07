@@ -81,7 +81,7 @@ class AddressCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.house,color: colors.dotcolor,),
+              (AddressModel.useraddress[index].addressType == 'Work') ? Icon(Icons.work,color: colors.dotcolor,) : Icon(Icons.house,color: colors.dotcolor,),
               const SizedBox(width: 15,),
               Text(
                 AddressModel.useraddress[index].addressType,

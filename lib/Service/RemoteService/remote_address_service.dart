@@ -33,7 +33,6 @@ Future<void> getUserAddress() async {
 
   }
 
-
 //Add address
 
 Future<bool?> addUserAddress(String name,String phone,String pin,String locality, String address, String citydistrict, String state,String lanmark,String addresstype) async {
@@ -76,7 +75,6 @@ Future<bool?> addUserAddress(String name,String phone,String pin,String locality
     
 
   }
-
 
 //remove user address
   Future<bool?> removeCartItem(productId) async {
