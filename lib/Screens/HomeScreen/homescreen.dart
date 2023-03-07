@@ -1,5 +1,6 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 import 'package:flutter/material.dart';
+import 'package:hplusmedcare/Models/accountmodel.dart';
 import 'package:hplusmedcare/Models/cartmodel.dart';
 import 'package:hplusmedcare/Screens/Cart/cart.dart';
 import 'package:hplusmedcare/Screens/HomeScreen/Components/categorygridview.dart';
@@ -35,15 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   actions: [
-      //     IconButton(icon: Icon(EvaIcons.logOutOutline), onPressed: () {
-      //       BlocProvider.of<AuthenticationBloc>(context).add(
-      //                     LoggedOut(),
-      //                   );
-      //     })
-      //   ],
-      // ),
+
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -93,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   Row(
                     children: [
-                      Text('Hi, Ben ' , style: TextStyle(
+                      Text('Hi, ' + AccountModel.accoundata.name , style: TextStyle(
                         fontSize: 24,
                         color: colors.textcolor1,
                         fontWeight: FontWeight.w500,

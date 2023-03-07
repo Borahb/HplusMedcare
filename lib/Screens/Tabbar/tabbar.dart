@@ -16,6 +16,7 @@ class Tabbar extends StatefulWidget {
 class _TabbarState extends State<Tabbar> {
 
   int _currentindex = 0;
+  
   final tabs = [
     HomeScreen(),
     Pharmacy(),

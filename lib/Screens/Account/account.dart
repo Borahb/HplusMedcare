@@ -1,17 +1,17 @@
-import 'dart:convert';
+// ignore_for_file: import_of_legacy_library_into_null_safe
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hplusmedcare/Bloc/auth_bloc/auth_bloc.dart';
 import 'package:hplusmedcare/Bloc/auth_bloc/auth_event.dart';
 import 'package:hplusmedcare/Models/accountmodel.dart';
-import 'package:hplusmedcare/Utils/app_url.dart';
+import 'package:hplusmedcare/Service/LocalService/local_userinfo_service.dart';
 import 'package:hplusmedcare/Utils/colors.dart';
 import 'package:hplusmedcare/repositories/repositories.dart';
-import 'package:http/http.dart' as http;
+
+
 class Account extends StatefulWidget {
   const Account({ Key ?key }) : super(key: key);
 
@@ -20,9 +20,11 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
-  final FlutterSecureStorage storage = const FlutterSecureStorage();
   late AccountModel userinfo;
   bool isLoading = false;
+  //final LocalUserInfoService _localuserinfo = LocalUserInfoService();
+
+
 
   userinf()async{
     setState(() {
@@ -38,7 +40,7 @@ class _AccountState extends State<Account> {
 
 @override
   void initState() {
-    userinf();
+    //userinf();
     super.initState();
   }
 
@@ -53,11 +55,12 @@ class _AccountState extends State<Account> {
           padding: const EdgeInsets.only(left:32,right:32,bottom:32,top:18),
           child: Column(
           children: [
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
             Text(
-                userinfo.name,
+                AccountModel.accoundata.name,
                 style: TextStyle(
                 fontSize: 17,
                 color: colors.textcolor1,
@@ -66,7 +69,7 @@ class _AccountState extends State<Account> {
                   ),
             GestureDetector(
               onTap: (){
-                
+                print(AccountModel.accoundata.name);
               },
               child: Text(
                   'Edit',
@@ -83,23 +86,24 @@ class _AccountState extends State<Account> {
              ),
             
               const SizedBox(height: 10,),
+
             Row(
               children: [
             Text(
-                '· '+userinfo.contact,
+                '• '+AccountModel.accoundata.contact,
                 style: TextStyle(
                 fontSize: 13,
                 color: colors.textcolor1,
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w400,
                 ),
                   ),
               const SizedBox(width: 10,),
             Text(
-                '· '+userinfo.email,
+                '• '+AccountModel.accoundata.email,
                 style: TextStyle(
                 fontSize: 13,
-                color: colors.dotcolor,
-                fontWeight: FontWeight.w800,
+                color: colors.textcolor1,
+                fontWeight: FontWeight.w400,
                 ),
                   ),
               

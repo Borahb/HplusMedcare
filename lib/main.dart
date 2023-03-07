@@ -8,7 +8,7 @@ import 'package:hive/hive.dart';
 import 'package:hplusmedcare/Bloc/auth_bloc/auth_bloc.dart';
 import 'package:hplusmedcare/Bloc/auth_bloc/auth_event.dart';
 import 'package:hplusmedcare/Bloc/auth_bloc/auth_state.dart';
-import 'package:hplusmedcare/Models/medicinemodel.dart';
+import 'package:hplusmedcare/Models/accountmodel.dart';
 import 'package:hplusmedcare/Screens/OnboardingScreen/onboardingScreen.dart';
 import 'package:hplusmedcare/Screens/Tabbar/tabbar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -40,9 +40,10 @@ void main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   //register adapters
-  Hive.registerAdapter(MedicineAdapter());
-  await Hive.openBox<Medicine>('Medicine');
+  Hive.registerAdapter(AccountModelAdapter());
+  await Hive.openBox<AccountModel>('Userinfo');
   await RemoteCartService().getCart();
+  AccountModel.accoundata   = await UserRepository().userinfo();
   BlocSupervisor.delegate = SimpleBlocDelegate();
   final userRepository = UserRepository();
   final bool hasToken = await userRepository.hasToken();

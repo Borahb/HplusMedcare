@@ -1,18 +1,37 @@
 import 'dart:convert';
+import 'package:hive/hive.dart';
+part 'accountmodel.g.dart';
 
+
+
+
+@HiveType(typeId: 2)
 class AccountModel {
+  @HiveField(0)
   final String id;
+  @HiveField(1)
   final String name;
+  @HiveField(2)
   final String email;
+  @HiveField(3)
   final String contact;
+  @HiveField(4)
   final String password;
+  @HiveField(5)
   final String street;
+  @HiveField(6)
   final String apartment;
+  @HiveField(7)
   final String zip;
+  @HiveField(8)
   final String city;
+  @HiveField(9)
   final String country;
+  @HiveField(10)
   final String createdAt;
+  @HiveField(11)
   final String updatedAt;
+  @HiveField(12)
   final int v;
   AccountModel({
     required this.id,
@@ -61,8 +80,7 @@ class AccountModel {
       v: v ?? this.v,
     );
   }
-
-  late AccountModel accountdata;
+static late  AccountModel accoundata;
 
 
   Map<String, dynamic> toMap() {
