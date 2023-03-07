@@ -2,6 +2,7 @@
 
 
 import 'dart:convert';
+import 'package:hplusmedcare/Models/accountmodel.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hplusmedcare/Utils/app_url.dart';
@@ -41,5 +42,21 @@ class UserRepository {
     var data = jsonDecode(response.body.toString());
     return data["token"];
   }
+
+  Future<AccountModel> userinfo() async {
+
+    var token = await storage.read(key: 'token'); 
+
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    final  response = await http.get(Uri.parse(AppUrl.userinfo),headers: requestHeaders);
+    var data = jsonDecode(response.body.toString());
+    AccountModel accountdata = AccountModel.fromMap(data);
+    return accountdata;
+  }
+
 
 }
