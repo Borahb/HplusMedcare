@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
+import 'package:hplusmedcare/Models/addressmodel.dart';
 import 'package:hplusmedcare/Models/cartmodel.dart';
-import 'package:hplusmedcare/Models/cartproductmodel.dart';
+import 'package:hplusmedcare/Screens/Cart/Components/SavedAddress/selectaddress.dart';
 import 'package:hplusmedcare/Screens/Cart/Components/addmoreitem.dart';
 import 'package:hplusmedcare/Screens/Cart/Components/appbar.dart';
 import 'package:hplusmedcare/Screens/Cart/Components/applycouponbar.dart';
@@ -11,7 +11,7 @@ import 'package:hplusmedcare/Screens/Cart/Components/totalitemscard.dart';
 import 'package:hplusmedcare/Service/RemoteService/remote_cart_service.dart';
 import 'package:hplusmedcare/Utils/colors.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 
 
 class Cart extends StatefulWidget {
@@ -31,11 +31,10 @@ class _CartState extends State<Cart> {
    int total = 0; 
    bool _isLoaderVisible = false;
 
-   getCartItems()async{
-    await RemoteCartService().getCart();
+   getCartItems()async{  
+    await RemoteCartService().getCart(); 
     totalprice = totalPrice();
     total = totalprice.toInt() + deliverycharges;
-    
     setState(() {
     });
    }
@@ -55,7 +54,7 @@ class _CartState extends State<Cart> {
   }
 
    @override
-  void initState() {
+   void initState() {
     totalprice = totalPrice();
     getCartItems();
     super.initState();
@@ -245,7 +244,58 @@ class _CartState extends State<Cart> {
 
                     const SizedBox(height: 20, ),
 
-                    BillSummaryCard(colors: colors, totalprice: totalprice, deliverycharges: deliverycharges)
+                    BillSummaryCard(colors: colors, totalprice: totalprice, deliverycharges: deliverycharges),
+
+                     const SizedBox(height: 20, ),
+
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> SelectAddress()));
+                      },
+                      child: Flexible(
+                        child: Container(
+                          width: double.infinity,
+                          height: 70,
+                          decoration:BoxDecoration(
+                            color: Colors.grey.shade200
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 10, right: 10, top: 25),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                              Row(
+                                children: [
+                                  Text('DELIVER TO ' + AddressModel.useraddress[AddressModel.selectedaddress].addressType.toUpperCase(), style: TextStyle(
+                                  color: colors.textcolor1,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w600
+                                  ),),
+                                const Spacer(),
+                                          
+                                Text('Change', style: TextStyle(
+                                  color: colors.dotcolor,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w600
+                                  ),),
+                                          
+                                ],
+                              ),
+                                          
+                            Text(AddressModel.useraddress[AddressModel.selectedaddress].address + ' '+AddressModel.useraddress[AddressModel.selectedaddress].locality , style: TextStyle(
+                              color: colors.textcolor1,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                           
+                            )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
               ],),
             ),
           ),

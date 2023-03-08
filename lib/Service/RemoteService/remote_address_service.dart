@@ -77,7 +77,7 @@ Future<bool?> addUserAddress(String name,String phone,String pin,String locality
   }
 
 //remove user address
-  Future<bool?> removeCartItem(productId) async {
+Future<bool?> removeCartItem(productId) async {
     var token = await storage.read(key: 'token'); 
 
     final request = http.Request("DELETE", Uri.parse(AppUrl.addressurl));

@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 class AddressModel {
 
 static List<Addres> useraddress = [];
+static int selectedaddress = 0;
 }
 
 
