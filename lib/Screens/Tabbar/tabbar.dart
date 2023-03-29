@@ -1,10 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:hplusmedcare/Screens/Account/account.dart';
-import 'package:hplusmedcare/Screens/Explore/explore.dart';
 import 'package:hplusmedcare/Screens/HomeScreen/homescreen.dart';
 import 'package:hplusmedcare/Screens/Pharmacy/pharmacy.dart';
 import 'package:hplusmedcare/Screens/Support/support.dart';
+
+import '../OrderScreen/orders.dart';
 
 class Tabbar extends StatefulWidget {
   const Tabbar({ Key? key }) : super(key: key);
@@ -16,12 +17,13 @@ class Tabbar extends StatefulWidget {
 class _TabbarState extends State<Tabbar> {
 
   int _currentindex = 0;
+  
   final tabs = [
-    HomeScreen(),
-    Pharmacy(),
-    Explore(),
-    Support(),
-    Account()
+    const HomeScreen(),
+    const Pharmacy(),
+    const Orders(),
+    const Support(),
+    const Account()
   ];
 
 
@@ -49,8 +51,8 @@ class _TabbarState extends State<Tabbar> {
             ),
 
             BottomNavigationBarItem(
-            icon:Icon(Icons.search) ,
-            label:'Search',
+            icon:Icon(Icons.shopping_bag) ,
+            label:'Orders',
              
 
             ),

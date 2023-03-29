@@ -11,16 +11,22 @@ class Medcareoptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      
+    return Row(   
       children: [
-
         Container(
           width: 90,
           height:94,
           decoration:BoxDecoration(
-            color: colors.white,
-            borderRadius: BorderRadius.circular(6)
+          color: colors.white,
+          borderRadius: BorderRadius.circular(6),
+          boxShadow: [
+          BoxShadow(
+          color: Colors.grey.withOpacity(0.3),
+          spreadRadius: 5,
+          blurRadius: 7,
+          offset: const Offset(0, 3), // changes position of shadow
+          ),
+          ],
           ),
           child: Padding(
             padding: const EdgeInsets.all(10),
@@ -28,14 +34,14 @@ class Medcareoptions extends StatelessWidget {
             children: [
             Row(
               children: [
-                const Spacer(),
-                CircleAvatar(
-                  radius: 15,
-                  backgroundColor: Colors.blueAccent[100],
-                  child: Center(
-                    child:Image.asset('images/Pill.png',height: 16,width: 16,)
-                  ),
-                )
+              const Spacer(),
+              CircleAvatar(
+              radius: 15,
+              backgroundColor: Colors.blueAccent[100],
+              child: Center(
+              child:Image.asset('images/Pill.png',height: 16,width: 16,)
+              ),
+              )
               ],
             ),
             const Spacer(),
@@ -56,24 +62,32 @@ class Medcareoptions extends StatelessWidget {
           width: 90,
           height:94,
           decoration:BoxDecoration(
-            color: colors.white,
-            borderRadius: BorderRadius.circular(6)
+          color: colors.white,
+          borderRadius: BorderRadius.circular(6),
+          boxShadow: [
+          BoxShadow(
+          color: Colors.grey.withOpacity(0.3),
+          spreadRadius: 5,
+          blurRadius: 7,
+          offset: const Offset(0, 3), // changes position of shadow
+          ),
+        ],
           ),
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
             children: [
             Row(
-              children: [
-                const Spacer(),
-                CircleAvatar(
-                  radius: 15,
-                  backgroundColor: Colors.yellowAccent,
-                  child: Center(
-                    child:Image.asset('images/Image.png',height: 16,width: 16,)
-                  ),
-                )
-              ],
+            children: [
+            const Spacer(),
+            CircleAvatar(
+            radius: 15,
+            backgroundColor: Colors.yellowAccent,
+            child: Center(
+            child:Image.asset('images/Image.png',height: 16,width: 16,)
+            ),
+            )
+            ],
             ),
             const Spacer(),
             Text('Product picture' , style: TextStyle(
@@ -93,22 +107,30 @@ class Medcareoptions extends StatelessWidget {
           height:94,
           decoration:BoxDecoration(
             color: colors.white,
-            borderRadius: BorderRadius.circular(6)
+            borderRadius: BorderRadius.circular(6),
+            boxShadow: [
+            BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: const Offset(0, 3), // changes position of shadow
+            ),
+        ],
           ),
-          child: Padding(
+            child: Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
             children: [
             Row(
-              children: [
-                const Spacer(),
-                CircleAvatar(
-                  radius: 15,
-                  backgroundColor: Colors.greenAccent[100],
-                  child: Center(
-                    child:Image.asset('images/UserFocus.png',height: 16,width: 16,)
-                  ),
-                )
+            children: [
+            const Spacer(),
+            CircleAvatar(
+            radius: 15,
+            backgroundColor: Colors.greenAccent[100],
+            child: Center(
+            child:Image.asset('images/UserFocus.png',height: 16,width: 16,)
+            ),
+              )
               ],
             ),
             const Spacer(),

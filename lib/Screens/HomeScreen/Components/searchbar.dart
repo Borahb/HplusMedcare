@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hplusmedcare/Screens/Explore/explore.dart';
 import 'package:hplusmedcare/Utils/colors.dart';
 
 class Searchbar extends StatelessWidget {
@@ -11,27 +12,41 @@ class Searchbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 48,
-      decoration: BoxDecoration(
-        borderRadius:BorderRadius.circular(25),
-        border: Border.all(color: colors.bordercolor1)
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16, top:16, bottom:16),
-        child: Row(
-          children: [
-          Icon(Icons.search,color:colors.bordercolor1, size: 20,),
-
-          const SizedBox(width:10),
-
-          Text('Type here to search..', style: TextStyle(
-            fontSize: 14,
-            color: colors.bordercolor1,
-            fontWeight: FontWeight.w400,
-          ),)
-        ],),
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>const Explore()));
+      },
+      child: Container(
+        width: double.infinity,
+        height: 48,
+        decoration: BoxDecoration(
+          color: colors.white,
+          borderRadius:BorderRadius.circular(15),
+          border: Border.all(color: colors.bordercolor1),
+          boxShadow: [
+          BoxShadow(
+          color: Colors.grey.withOpacity(0.3),
+          spreadRadius: 5,
+          blurRadius: 7,
+          offset: const Offset(0, 3), // changes position of shadow
+          ),
+        ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(13),
+          child: Row(
+            children: [
+            Icon(Icons.search,color:colors.dotcolor, size: 23,),
+    
+            const SizedBox(width:10),
+    
+            Text('Search for Medicines', style: TextStyle(
+              fontSize: 14,
+              color: colors.textcolor1,
+              fontWeight: FontWeight.w400,
+            ),)
+          ],),
+        ),
       ),
     );
   }
