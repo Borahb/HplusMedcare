@@ -1,14 +1,8 @@
 // ignore_for_file: file_names, import_of_legacy_library_into_null_safe
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hplusmedcare/Bloc/auth_bloc/auth_bloc.dart';
-import 'package:hplusmedcare/Bloc/login_bloc/login_bloc.dart';
 import 'package:hplusmedcare/Screens/LoginScreen/loginform.dart';
 import 'package:hplusmedcare/Utils/colors.dart';
-import 'package:hplusmedcare/repositories/repositories.dart';
-
-
-
+import 'package:hplusmedcare/repositories/user_repository.dart';
 
 
 
@@ -19,20 +13,11 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return BlocProvider(
-        create: (context) {
-          return LoginBloc(
-            authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
-            userRepository: userRepository
-          );
-        },
-        child: LoginForm(userRepository: userRepository,),
-      );
+    return LoginForm(userRepository: userRepository,);
+      
     
   }
 }
-
-
 
 
 class SignInwithGoogle extends StatelessWidget {
@@ -91,10 +76,9 @@ class Passwordtextfield extends StatelessWidget {
           )
         ),
         hintText: "Password",
-        suffixIcon: Icon(Icons.remove_red_eye,color: colors.darkmode,)
       ),
       
-      obscureText: false,
+      obscureText: true,
       controller: passwordcontroller,
     );
   }
@@ -113,17 +97,17 @@ class Emailtextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
-          borderSide: BorderSide(
-            color: colors.bordercolor1
-          )
-        ),
-        hintText: "Email",       
-      ),
-      obscureText: false,
-      controller: emailcontroller,
+    decoration: InputDecoration(
+    border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(6),
+    borderSide: BorderSide(
+    color: colors.bordercolor1
+    )
+    ),
+    hintText: "Email",       
+    ),
+    obscureText: false,
+    controller: emailcontroller,
     );
   }
 }

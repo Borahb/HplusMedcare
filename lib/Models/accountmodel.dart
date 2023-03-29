@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:hive/hive.dart';
-part 'accountmodel.g.dart';
+//part 'accountmodel.g.dart';
 
 
 
@@ -18,15 +18,6 @@ class AccountModel {
   @HiveField(4)
   final String password;
   @HiveField(5)
-  final String street;
-  @HiveField(6)
-  final String apartment;
-  @HiveField(7)
-  final String zip;
-  @HiveField(8)
-  final String city;
-  @HiveField(9)
-  final String country;
   @HiveField(10)
   final String createdAt;
   @HiveField(11)
@@ -39,11 +30,6 @@ class AccountModel {
     required this.email,
     required this.contact,
     required this.password,
-    required this.street,
-    required this.apartment,
-    required this.zip,
-    required this.city,
-    required this.country,
     required this.createdAt,
     required this.updatedAt,
     required this.v,
@@ -55,10 +41,6 @@ class AccountModel {
     String? email,
     String? contact,
     String? password,
-    String? street,
-    String? apartment,
-    String? zip,
-    String? city,
     String? country,
     String? createdAt,
     String? updatedAt,
@@ -70,11 +52,6 @@ class AccountModel {
       email: email ?? this.email,
       contact: contact ?? this.contact,
       password: password ?? this.password,
-      street: street ?? this.street,
-      apartment: apartment ?? this.apartment,
-      zip: zip ?? this.zip,
-      city: city ?? this.city,
-      country: country ?? this.country,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       v: v ?? this.v,
@@ -90,11 +67,6 @@ static late  AccountModel accoundata;
       'email': email,
       'contact': contact,
       'password': password,
-      'street': street,
-      'apartment': apartment,
-      'zip': zip,
-      'city': city,
-      'country': country,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
       'v': v,
@@ -108,11 +80,6 @@ static late  AccountModel accoundata;
       email: map['email'] as String,
       contact: map['contact'] as String,
       password: map['password'] as String,
-      street: map['street'] as String,
-      apartment: map['apartment'] as String,
-      zip: map['zip'] as String,
-      city: map['city'] as String,
-      country: map['country'] as String,
       createdAt: map['createdAt'] as String,
       updatedAt: map['updatedAt'] as String,
       v: map['__v'].toInt() as int,
@@ -125,7 +92,7 @@ static late  AccountModel accoundata;
 
   @override
   String toString() {
-    return 'AccountModel(id: $id, name: $name, email: $email, contact: $contact, password: $password, street: $street, apartment: $apartment, zip: $zip, city: $city, country: $country, createdAt: $createdAt, updatedAt: $updatedAt, v: $v)';
+    return 'AccountModel(id: $id, name: $name, email: $email, contact: $contact, password: $password, createdAt: $createdAt, updatedAt: $updatedAt, v: $v)';
   }
 
   @override
@@ -138,11 +105,6 @@ static late  AccountModel accoundata;
       other.email == email &&
       other.contact == contact &&
       other.password == password &&
-      other.street == street &&
-      other.apartment == apartment &&
-      other.zip == zip &&
-      other.city == city &&
-      other.country == country &&
       other.createdAt == createdAt &&
       other.updatedAt == updatedAt &&
       other.v == v;
@@ -155,11 +117,6 @@ static late  AccountModel accoundata;
       email.hashCode ^
       contact.hashCode ^
       password.hashCode ^
-      street.hashCode ^
-      apartment.hashCode ^
-      zip.hashCode ^
-      city.hashCode ^
-      country.hashCode ^
       createdAt.hashCode ^
       updatedAt.hashCode ^
       v.hashCode;

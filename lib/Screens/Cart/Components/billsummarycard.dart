@@ -39,7 +39,7 @@ class BillSummaryCard extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.w400
                     ),),
-                Text('₹'+totalprice.toString(),style: TextStyle(
+                Text('₹$totalprice',style: TextStyle(
                       color: colors.textcolor2,
                       fontSize: 14,
                       fontWeight: FontWeight.w400
@@ -72,7 +72,7 @@ class BillSummaryCard extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.w400
                     ),),
-                Text('₹'+totalprice.toString(),style: TextStyle(
+                Text('₹$totalprice',style: TextStyle(
                       color: colors.textcolor2,
                       fontSize: 14,
                       fontWeight: FontWeight.w400
@@ -88,8 +88,8 @@ class BillSummaryCard extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.w400
                     ),),
-                Text('₹'+deliverycharges.toString(),style: TextStyle(
-                      color: colors.textcolor2,
+                Text('Free',style: TextStyle(
+                      color: colors.dotcolor,
                       fontSize: 14,
                       fontWeight: FontWeight.w400
                     ),),

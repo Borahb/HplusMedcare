@@ -20,7 +20,7 @@ class AppColors{
 
   final  yellow = const Color(0xffFFB200);
 
-  final green = const Color(0xff4caf50);
+  final  green = const Color(0xff4caf50);
 
 
 }

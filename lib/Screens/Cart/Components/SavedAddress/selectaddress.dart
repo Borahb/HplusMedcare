@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:hplusmedcare/Models/addressmodel.dart';
 import 'package:hplusmedcare/Screens/Cart/cart.dart';
@@ -46,91 +48,94 @@ class _SelectAddressState extends State<SelectAddress> {
         )
         ),
       child: Scaffold(
-        body: SafeArea(
-          child:SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(left:32,right:32,bottom:32,top:18),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                  body: SafeArea(
+                  child:SingleChildScrollView(
+                  child: Padding(
+                  padding: const EdgeInsets.only(left:32,right:32,bottom:32,top:18),
+                  child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                   Row(
-                    children: [
-                      GestureDetector(
-                        onTap: (){
-                          Navigator.pop(context);
-                        },
-                        child: const Icon(Icons.arrow_back_ios,size: 20,)),
+                  children: [
+                  GestureDetector(
+                  onTap: (){
+                  Navigator.pop(context);
+                  },
+                  child: const Icon(Icons.arrow_back_ios,size: 20,)),
+
+                  const SizedBox(width: 15,),
     
-                        const SizedBox(width: 15,),
-    
-                        Text(
-                            'Select Address',
-                            style: TextStyle(
-                            fontSize: 17,
-                            color: colors.textcolor1,
-                            fontWeight: FontWeight.w800,
-                            ),
-                              ),
+                  Text(
+                  'Manage Address',
+                  style: TextStyle(
+                  fontSize: 17,
+                  color: colors.textcolor1,
+                  fontWeight: FontWeight.w800,
+                  ),
+                  ),
                             
-                        ],
-                      ),
-                   const SizedBox(height: 30,),
+                  ],
+                  ),
+                  const SizedBox(height: 30,),
                   Text('Deliver To', style: TextStyle(
-                        color: colors.textcolor1,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700
-                        ),),
+                  color: colors.textcolor1,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w700
+                  ),),
                   const SizedBox(height: 15,),
     
-                  SizedBox(
-                    height: 520,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: AddressModel.useraddress.length,
-                      itemBuilder: (context,index){
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom:35.0),
-                          child: SelectAdress(colors: colors, index: index, selecteditem: selectedIndex, onchanged: (value)=> setState(() {
-                          selectedIndex = index;
-                          AddressModel.selectedaddress = selectedIndex;
-                          })   ),
-                        );
-                      }),
-                  ),
-    
+                Column(
+                children: [
+                SizedBox(
+                height: 520,
+                child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: AddressModel.useraddress.length,
+                itemBuilder: (context,index){
+                return Padding(
+                padding: const EdgeInsets.only(bottom:35.0),
+                child: SelectAdress(colors: colors, index: index, selecteditem: selectedIndex, onchanged: (value)=> setState(() {
+                selectedIndex = index;
+                AddressModel.selectedaddress = selectedIndex;
+                })   ),
+                );
+                }),
+                ),
+
                 const SizedBox(height: 15,),
     
                 GestureDetector(
-                  onTap: ()async{
-                    context.loaderOverlay.show();                     
-                    setState(() {
-                    _isLoaderVisible = context.loaderOverlay.visible;
-                    });
-                    await Future.delayed(const Duration(seconds: 1));
-                    if (_isLoaderVisible) {
-                        context.loaderOverlay.hide();
-                        }
-                      setState(() {
-                        _isLoaderVisible = context.loaderOverlay.visible;
-                      });
-                    Navigator.pushReplacement(context,  MaterialPageRoute(builder: (context)=> Cart()));
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: colors.dotcolor,
-                      borderRadius: BorderRadius.circular(6)
-                    ),
-                    child: Center(child:Text('Save and Continue', style: TextStyle(
-                          color: colors.white,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700
-                          ),) ,),
-                  ),
+                onTap: ()async{
+                context.loaderOverlay.show();                     
+                setState(() {
+                _isLoaderVisible = context.loaderOverlay.visible;
+                });
+                await Future.delayed(const Duration(seconds: 1));
+                if (_isLoaderVisible) {
+                context.loaderOverlay.hide();
+                }
+                setState(() {
+                _isLoaderVisible = context.loaderOverlay.visible;
+                });
+                Navigator.pushReplacement(context,  MaterialPageRoute(builder: (context)=> Cart()));
+                },
+                child: Container(
+                width: double.infinity,
+                height: 60,
+                decoration: BoxDecoration(
+                color: colors.dotcolor,
+                borderRadius: BorderRadius.circular(6)
                 ),
-    
+                child: Center(child:Text('Save and Continue', style: TextStyle(
+                color: colors.white,
+                fontSize: 17,
+                fontWeight: FontWeight.w700
+                ),) ,),
+                ),
+                ),
                 ],
+                ),  
+               ],
               ),
             )
           )
@@ -233,20 +238,6 @@ class SelectAdress extends StatelessWidget {
               const SizedBox(width: 37,),
               Text(
                 AddressModel.useraddress[index].locality,
-                style: TextStyle(
-                fontSize: 13,
-                color: colors.textcolor1,
-                fontWeight: FontWeight.w400,
-                ),
-                  )
-            ],
-          ),
-        const SizedBox(height: 5,),
-          Row(
-            children: [
-              const SizedBox(width: 37,),
-              Text(
-                AddressModel.useraddress[index].landmark,
                 style: TextStyle(
                 fontSize: 13,
                 color: colors.textcolor1,

@@ -108,9 +108,6 @@ class Addres {
   final String pinCode;
   final String locality;
   final String address;
-  final String cityDistrictTown;
-  final String state;
-  final String landmark;
   final String addressType;
   final String id;
   Addres({
@@ -119,9 +116,6 @@ class Addres {
     required this.pinCode,
     required this.locality,
     required this.address,
-    required this.cityDistrictTown,
-    required this.state,
-    required this.landmark,
     required this.addressType,
     required this.id,
   });
@@ -144,9 +138,6 @@ class Addres {
       pinCode: pinCode ?? this.pinCode,
       locality: locality ?? this.locality,
       address: address ?? this.address,
-      cityDistrictTown: cityDistrictTown ?? this.cityDistrictTown,
-      state: state ?? this.state,
-      landmark: landmark ?? this.landmark,
       addressType: addressType ?? this.addressType,
       id: id ?? this.id,
     );
@@ -159,9 +150,6 @@ class Addres {
       'pinCode': pinCode,
       'locality': locality,
       'address': address,
-      'cityDistrictTown': cityDistrictTown,
-      'state': state,
-      'landmark': landmark,
       'addressType': addressType,
       'id': id,
     };
@@ -174,9 +162,6 @@ class Addres {
       pinCode: map['pinCode'] as String,
       locality: map['locality'] as String,
       address: map['address'] as String,
-      cityDistrictTown: map['cityDistrictTown'] as String,
-      state: map['state'] as String,
-      landmark: map['landmark'] as String,
       addressType: map['addressType'] as String,
       id: map['_id'] as String,
     );
@@ -188,7 +173,7 @@ class Addres {
 
   @override
   String toString() {
-    return 'Addres(name: $name, mobileNumber: $mobileNumber, pinCode: $pinCode, locality: $locality, address: $address, cityDistrictTown: $cityDistrictTown, state: $state, landmark: $landmark, addressType: $addressType, id: $id)';
+    return 'Addres(name: $name, mobileNumber: $mobileNumber, pinCode: $pinCode, locality: $locality, address: $address, addressType: $addressType, id: $id)';
   }
 
   @override
@@ -201,9 +186,6 @@ class Addres {
       other.pinCode == pinCode &&
       other.locality == locality &&
       other.address == address &&
-      other.cityDistrictTown == cityDistrictTown &&
-      other.state == state &&
-      other.landmark == landmark &&
       other.addressType == addressType &&
       other.id == id;
   }
@@ -215,9 +197,6 @@ class Addres {
       pinCode.hashCode ^
       locality.hashCode ^
       address.hashCode ^
-      cityDistrictTown.hashCode ^
-      state.hashCode ^
-      landmark.hashCode ^
       addressType.hashCode ^
       id.hashCode;
   }

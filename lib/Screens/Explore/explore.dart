@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:hplusmedcare/Screens/Explore/Components/medcard.dart';
+import 'package:hplusmedcare/Screens/Explore/ViewModel/explore_view_model.dart';
 import 'package:hplusmedcare/Screens/MedicinedetailScreen/meddetailscreen.dart';
-import 'package:hplusmedcare/Service/RemoteService/remote_medicine.dart';
+import 'package:hplusmedcare/repositories/medicine_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:hplusmedcare/Models/medicinemodel.dart';
 import 'package:hplusmedcare/Utils/colors.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 
@@ -20,172 +22,148 @@ class _ExploreState extends State<Explore> {
 
   
   AppColors colors = AppColors();
-  final List<Medicine> _foundmedicine = [];
-  late bool _isLastPage;
-  late int _pageNumber;
-  late bool _error;
-  final int _numberOfMedsPerRequest = 10;
-  late String search;
-  bool isLoading = false;
-
-  loadMedData() async {
-
-    var meddata = await RemoteMedicineService().get(_numberOfMedsPerRequest,_pageNumber);
-    if (meddata != null) {
-      final decodeddata = jsonDecode(meddata.body.toString());
-      var medicine = decodeddata["medicine"];
-      MedicineModel.medicines = List.from(medicine)
-          .map<Medicine>((item) => Medicine.fromMap(item))
-          .toList();
-     setState(() {
-      _isLastPage = MedicineModel.medicines.length < _numberOfMedsPerRequest;
-      _pageNumber = _pageNumber + 1;
-      _foundmedicine.addAll(MedicineModel.medicines);
-     });
-    }
-  }
-  
-  //This function is called whenever the text field changes
-  runFilter(String enteredKeyword)async{
-    setState(() {
-        isLoading = true;
-        _foundmedicine.clear();
-     });
-    List<Medicine> results = [];
-    var meddata = await RemoteMedicineService().getMedicine(enteredKeyword,_numberOfMedsPerRequest,_pageNumber);
-    if (meddata != null) {
-      final decodeddata = jsonDecode(meddata.body.toString());
-      var medicine = decodeddata["medicine"];
-      results = List.from(medicine)
-          .map<Medicine>((item) => Medicine.fromMap(item))
-          .toList();
-     setState(() {
-      _isLastPage = results.length < _numberOfMedsPerRequest;
-      _pageNumber = _pageNumber + 1;
-      _foundmedicine.addAll(results);
-      isLoading = false;
-     });
-    }
-
-  }
-
 
   @override
   void initState() {
-    _pageNumber = 0;
-    _isLastPage = false;  
-    _error = false;
-    //loadMedData();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    Provider.of<ExploreViewModel>(context,listen: false).isLastPage = false;
+    Provider.of<ExploreViewModel>(context,listen: false).pageNumber =0;
+    Provider.of<ExploreViewModel>(context,listen: false).error =false;
+    });
+    
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
- 
-    return NotificationListener<ScrollNotification>(
+          final exploreviewmodel = Provider.of<ExploreViewModel>(context);
+
+          return NotificationListener<ScrollNotification>(
           onNotification: (ScrollNotification scrollInfo) {
           if (scrollInfo.metrics.pixels ==
-              scrollInfo.metrics.maxScrollExtent) {
-            //loadMedData();
-            runFilter(search);
+          scrollInfo.metrics.maxScrollExtent) {
+          exploreviewmodel.runFilter(exploreviewmodel.search,context);
           }
           return true;
-        },
+          },
           child: Scaffold(
-                    body: SafeArea(
-                  child: SingleChildScrollView(
-                      child: Padding(
-                    padding: const EdgeInsets.only(left: 32, right: 32, bottom: 32, top: 18),
+          body: SafeArea(
+          child: SingleChildScrollView(
+          child: Padding(
+          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 32, top: 18),
 
-                    child: Column(
-                      children: [
+          child: Column(
+          children: [
 
-                      TextField(
-                        textInputAction: TextInputAction.search,
-                        onChanged: (value){
-                          
-                        },
-                        onSubmitted: (value){
-                          
-                          setState(() {
-                            search = value;
-                            runFilter(search);
-                          });
-                        },
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 15),
-                          hintText: "Search",
-                          suffixIcon: const Icon(Icons.search),
-                          // prefix: Icon(Icons.search),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                            borderSide: const BorderSide(),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(
-                        height: 20,
-                      ),
-
-
-              isLoading ? ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: 5,
-                        itemBuilder: (context,index){
-                          return Shimmer.fromColors(
-                        baseColor: Colors.grey.shade300,
-                        highlightColor: Colors.grey.shade100,
-                        child: ShimmerCard(colors: colors));
-                        }
-                        ): ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,                      
-                itemCount: _foundmedicine.length + (_isLastPage ? 0 : 1),
-                itemBuilder: (context, index) {
-                  if(_foundmedicine.isEmpty){
-                    return const Center(
-                        child: Text('Find Medicine'),
-                      );
-                  }
-                   if (index == _foundmedicine.length) {
-                    if (_error) {
-                      return Center(
-                        child: errorDialog(size: 15)
-                      );
-                    } else {
-                      return ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: 5,
-                        itemBuilder: (context,index){
-                          return Shimmer.fromColors(
-                        baseColor: Colors.grey.shade300,
-                        highlightColor: Colors.grey.shade100,
-                        child: ShimmerCard(colors: colors));
-                        }
-                        );
-                    }
-                  }
-
-                  return GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder:(context)=> Medicinedetail(
-                          medicine: _foundmedicine[index]
-                          )
-                            ));
-                      },
-                      child: MedCard(colors: colors, medDataToShow: _foundmedicine, index: index,));
+          Row(
+            children: [
+              GestureDetector(
+              onTap: (){
+              Navigator.pop(context);
+              },
+              child: const Icon(Icons.arrow_back,size: 25,)),
+              const Spacer(),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.80,
+                height: 50,
+                child: TextField(
+                textInputAction: TextInputAction.search,
+                onChanged: (value){
+                  
                 },
-                
-              )
+                onSubmitted: (value){
+                  
+                setState(() {
+                exploreviewmodel.search = value;
+                exploreviewmodel.runFilter(exploreviewmodel.search,context);
+                });
+                },
+                decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(
+                vertical: 10.0, horizontal: 15),
+                hintText: "Search",
+                suffixIcon: const Icon(Icons.search),
+                // prefix: Icon(Icons.search),
+                border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0),
+                borderSide: const BorderSide(),
+                ),
+                ),
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(
+          height: 20,
+          ),
+
+
+          exploreviewmodel.isLoading ? ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: 5,
+          itemBuilder: (context,index){
+            return Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          child: ShimmerCard(colors: colors));
+          }
+          ): ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,                      
+          itemCount: exploreviewmodel.foundmedicine.length + (exploreviewmodel.isLastPage ? 0 : 1),
+          itemBuilder: (context, index) {
+
+          if(exploreviewmodel.foundmedicine.isEmpty){
+          return const Center(
+          child: Center(
+          child: Column(
+          children: [
+          //Image.asset('images/Search_SVG.png'),
+          Text('Search Medicine'),
+          ],
+          )),
+          );
+          }
+
+          if (index == exploreviewmodel.foundmedicine.length) {
+          if (exploreviewmodel.error) {
+          return Center(
+          child: errorDialog(size: 15)
+          );
+          } else {
+          return ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: 5,
+          itemBuilder: (context,index){
+          return Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          child: ShimmerCard(colors: colors));
+          }
+          );
+          }
+          }
+
+          return GestureDetector(
+          onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder:(context)=> Medicinedetail(
+          medicine: exploreviewmodel.foundmedicine[index]
+          )
+          ));
+          },
+          child: MedCard(colors: colors, medDataToShow: exploreviewmodel.foundmedicine, index: index,));
+          },
+        
+          )
               
-                    ]),
-                  )),
-                )),
-        );
+          ]),
+          )),
+          )),
+          );
             
   }
 
@@ -194,25 +172,25 @@ Widget errorDialog({required double size}){
       height: 180,
       width: 200,
       child:  Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('An error occurred when fetching the posts.',
-            style: TextStyle(
-                fontSize: size,
-                fontWeight: FontWeight.w500,
-                color: Colors.black
-            ),
-          ),
-          const SizedBox(height: 10,),
-          FlatButton(
-              onPressed:  ()  {
-                setState(() {
-                  
-                  _error = false;
-                  loadMedData();
-                });
-              },
-              child: const Text("Retry", style: TextStyle(fontSize: 20, color: Colors.purpleAccent),)),
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+      Text('An error occurred when fetching the posts.',
+      style: TextStyle(
+      fontSize: size,
+      fontWeight: FontWeight.w500,
+      color: Colors.black
+      ),
+      ),
+      const SizedBox(height: 10,),
+      CupertinoButton(
+      onPressed:  ()  {
+      // setState(() {
+          
+      // //exploreviewmodel.error = false;
+      // //loadMedData();
+      // });
+      },
+      child: const Text("Retry", style: TextStyle(fontSize: 20, color: Colors.purpleAccent),)),
         ],
       ),
     );

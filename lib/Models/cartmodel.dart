@@ -10,5 +10,6 @@ class CartModel {
 
 
   static List<CartProduct> medicines = [];
+  //static late  AccountModel accoundata;
 
 }
